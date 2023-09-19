@@ -13,4 +13,4 @@ Change docker-compose.yml file (env variables):
 Then start by command ```docker-compose up -d```. Standard admin user will be admin:admin
 
 # Swagger
-you cah use swagger on endpoint ```/swagger-ui/index.html```
+you can use swagger on endpoint ```/swagger-ui/index.html```
