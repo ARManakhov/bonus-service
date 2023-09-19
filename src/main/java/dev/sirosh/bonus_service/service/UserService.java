@@ -54,7 +54,9 @@ public class UserService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
         User user = userDetails.getUser();
         if (isNull(user.getBonus())) {
-            user.setBonus(new Bonus());
+            Bonus bonus = new Bonus();
+            bonus.setUser(user);
+            user.setBonus(bonus);
         }
         return user;
     }
