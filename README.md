@@ -1,5 +1,5 @@
 # bonus_service
-Service to manage users bonus service
+Service to manage users bonuses
 # Requirements
 * docker
 * postgresql
