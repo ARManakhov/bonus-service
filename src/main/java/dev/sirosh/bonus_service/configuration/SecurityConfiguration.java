@@ -28,7 +28,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(c -> c
                         .requestMatchers("/user/register", "/user/login").permitAll()
-                        .requestMatchers("/users").hasAuthority("ADMIN")
+                        .requestMatchers("/user").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(tokenFilter, BasicAuthenticationFilter.class)
