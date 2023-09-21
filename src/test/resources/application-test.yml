@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    username: test
+    password: test
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
