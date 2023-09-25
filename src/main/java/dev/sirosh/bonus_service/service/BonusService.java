@@ -23,18 +23,17 @@ public class BonusService {
     public void add(@Valid int amount) {
         Bonus bonus = getBonusBySelf();
         int newAmount = bonus.getCount() + amount;
-        bonus.setCount(newAmount);
-        if (newAmount < 0) {
-            throw new IllegalArgumentException("trying to withdraw more amount than you have");
-        }
-        repository.save(bonus);
+        setAmountAndSave(newAmount, bonus);
     }
-
 
     @Transactional
     public void subtract(@Valid int amount) {
         Bonus bonus = getBonusBySelf();
         int newAmount = bonus.getCount() - amount;
+        setAmountAndSave(newAmount, bonus);
+    }
+
+    private void setAmountAndSave(int newAmount, Bonus bonus) {
         if (newAmount < 0) {
             throw new IllegalArgumentException("trying to withdraw more amount than you have");
         }
