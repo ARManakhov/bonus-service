@@ -4,6 +4,7 @@ import dev.sirosh.bonus_service.dto.ErrorDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,6 +17,12 @@ public class ExceptionHandlerController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({IllegalArgumentException.class})
     public ErrorDto illegalArgument(IllegalArgumentException e) {
+        return new ErrorDto(e.getMessage());
+    }
+
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({AuthenticationServiceException.class})
+    public ErrorDto unauthorized(AuthenticationServiceException e) {
         return new ErrorDto(e.getMessage());
     }
 

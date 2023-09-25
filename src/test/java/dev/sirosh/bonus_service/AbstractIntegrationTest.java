@@ -21,7 +21,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Disabled
 @ActiveProfiles("test")
 @Testcontainers
-@SpringBootTest(webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ContextConfiguration(initializers = {AbstractIntegrationTest.DataSourceInitializer.class})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)

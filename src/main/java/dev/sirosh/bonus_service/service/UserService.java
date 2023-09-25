@@ -11,6 +11,7 @@ import dev.sirosh.bonus_service.security.JwtTokenAuthentication;
 import dev.sirosh.bonus_service.security.UserDetailsImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class UserService {
         User user = repository.findByUsername(authDto.getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("user not found"));
         if (!passwordEncoder.matches(authDto.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("wrong password !");
+            throw new AuthenticationServiceException("wrong password !");
         }
         return jwtManager.create(user);
     }
@@ -53,15 +54,24 @@ public class UserService {
         JwtTokenAuthentication authentication = (JwtTokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
         User user = userDetails.getUser();
-        if (isNull(user.getBonus())) {
-            Bonus bonus = new Bonus();
-            bonus.setUser(user);
-            user.setBonus(bonus);
-        }
+        addBonus(user);
         return user;
     }
 
-    public List<User> getList(){
-        return repository.findAll();
+    private static void addBonus(User user) {
+        if (!isNull(user.getBonus())) {
+            return;
+        }
+        Bonus bonus = new Bonus();
+        bonus.setUser(user);
+        user.setBonus(bonus);
+    }
+
+    public List<User> getList() {
+        return repository.findAll().stream()
+                .map(u -> {
+                    addBonus(u);
+                    return u;
+                }).toList();
     }
 }

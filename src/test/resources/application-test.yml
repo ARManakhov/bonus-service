@@ -10,3 +10,7 @@ spring:
   sql:
     init:
       mode: always
+
+jwt:
+  secret: test_secret
+  issuer: test_issuer
